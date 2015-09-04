@@ -5,8 +5,13 @@ Anyways, here it is.
 
 ## Instructions
 *YOU NEED THE TERMINAL FOR THIS*
+
 Simple download the zip file, extract, and
+
 	cd /path/to/file
+
 Then, 
+
 	ruby application_controller.rb
+
 And follow the instructions.
