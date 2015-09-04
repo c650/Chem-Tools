@@ -4,7 +4,7 @@ Because I had to do a high school chemistry lab that needed error, deviation, an
 Anyways, here it is.
 
 ## Instructions
-*YOU NEED THE TERMINAL FOR THIS*
+<strong>YOU NEED THE TERMINAL FOR THIS</strong>
 
 Simple download the zip file, extract, and
 
