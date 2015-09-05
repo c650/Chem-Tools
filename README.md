@@ -18,7 +18,7 @@ And follow the instructions.
 
 The methods/math is in the methods.rb file. The chem-tools.rb file handles the program flow. 
 
-###### Licensing
+## Licensing
 
 Licensed under the MIT License.
 
