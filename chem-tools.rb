@@ -27,7 +27,7 @@ until valid == true do #implementation of error checking
 
 	if choice.to_s.downcase == "all" #checks if choice is 'all'
 		valid = true
-		Calculations.all(array_of_values)
+		Printer.print_all(array_of_values)
 	elsif choice.to_s.downcase == "exit" #checks if choice is 'exit'
 		print "Exiting"
 		3.times do |time| #artsy little 'animation' where .'s print out
@@ -40,32 +40,25 @@ until valid == true do #implementation of error checking
 		case choice #checking for number selections.
 		when "1"
 			valid = true
-			puts "#{"Mean:".red} \n#{Calculations.mean(array_of_values)}"
-			puts ""
+			Printer.print_simple("Mean",Calculations.mean(array_of_values))
 		when "2"
 			valid = true
-			puts "#{"Regular Deviation:".red}"
-			puts "#{Calculations.regular_deviation(array_of_values)}"
-			puts ""
+			Printer.print_complex("Deviation",Calculations.regular_deviation(array_of_values))
 		when "3"
 			valid = true
-			puts "#{"Standard Deviation:".red}"
-			puts "#{Calculations.standard_deviation(array_of_values)}"
-			puts ""
+			Printer.print_simple("Standard Deviation",Calculations.standard_deviation(array_of_values))
 		when "4"
 			valid = true
 			puts "-"*33
 			Calculations.check_for_accepted
 			puts "-"*33
-			puts "#{"Error:".red}"
-			puts Calculations.error(array_of_values)
+			Printer.print_complex("Error",Calculations.error(array_of_values))
 		when "5"
 			valid = true
 			puts "-"*33
 			Calculations.check_for_accepted
 			puts "-"*33
-			puts "#{"Percent Error:".red}"
-			puts Calculations.percent_error(array_of_values)
+			Printer.print_complex("Percent Error",Calculations.percent_error(array_of_values))
 		else #error handeling for invalid options... shoots back up to option prompt afterwards
 			valid = false
 			puts "#{"ERROR:".red} Invalid option. Please enter again."

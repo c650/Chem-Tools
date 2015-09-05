@@ -1,50 +1,58 @@
 require 'colored'
 module Calculations
-	#METHOD TO CALCULATE MEAN
+	#METHOD TO CALCULATE SUM OF VALUES
+	def Calculations.sum_of_values(array_of_values)
+		#initialize empty float for sum
+		sum = 0.0 
+		array_of_values.map{|value| sum += value}
+		sum
+	end
+	#METHOD TO CALCULATE ARTIHMETIC MEAN OF VALUES
 	def Calculations.mean(array_of_values)
-		sum = 0.0 #initialize empty float for sum
-
-		array_of_values.each do |value| #iterate through values and add to sum
-			sum += value
-		end
-
-		sum /= (array_of_values.length.to_f) #divide sum by number of terms, making it a mean
+		Calculations.sum_of_values(array_of_values) / (array_of_values.length.to_f)
 	end
 	#METHOD TO CALCULATE REGULAR -- NOT STANDARD -- DEVIATION
 	def Calculations.regular_deviation(array_of_values)
-		array_of_values.each do |value| #iterate through the array
-			deviation = value - Calculations.mean(array_of_values) #calc deviation by subracting given value from mean of values(terms)
-			if deviation < 0 #absolute value workaround
-				deviation *= -1 #if the deviation is negative it'll negated to turn it positive
-			end
-			#prints out the results accordingly
-			puts "Data #{array_of_values.index(value) + 1} deviation: #{deviation}"
-		end
-	end
-	#METHOD FOR STANDARD -- STANDARD -- DEVIATION
-	def Calculations.standard_deviation(array_of_values)
-		deviation_array = Array.new #initializes empty array for holding each value's deviation
-		array_of_values.each do |value| #iterates through supplied/given values
-			deviation = value - Calculations.mean(array_of_values) #calculates deviation for each value
-			if deviation < 0 #absolute value workaround
+		#initializes empty array for holding each value's deviation
+		deviation_array = Array.new
+		#iterates through supplied/given values
+		array_of_values.each do |value|
+			#calculates deviation for each value
+			deviation = value - Calculations.mean(array_of_values) 
+			#absolute value workaround
+			if deviation < 0 
 				deviation *= -1
 			end
-			deviation_array.push(deviation) #adds each deviation to the array of deviations
+			#adds each deviation to the array of deviations
+			deviation_array.push(deviation) 
+		end
+		return deviation_array
+	end
+
+	#METHOD FOR STANDARD -- STANDARD -- DEVIATION
+	def Calculations.standard_deviation(array_of_values)
+		#initializes empty array for holding each value's deviation
+		deviation_array = Array.new
+		#iterates through supplied/given values
+		array_of_values.each do |value|
+			#calculates deviation for each value
+			deviation = value - Calculations.mean(array_of_values) 
+			#absolute value workaround
+			if deviation < 0 
+				deviation *= -1
+			end
+			#adds each deviation to the array of deviations
+			deviation_array.push(deviation) 
 		end
 		#square each element in the array of deviations
 		deviation_array = deviation_array.map{|value| value = value ** 2}
-		#initialize a sum variable for mean-like calculation
-		sum = 0.0
-		#add each deviation to the sum variable
-		deviation_array.each do |value|
-			sum += value
-		end
+		#initialize a quotient variable for mean-like calculation
 		#determine the (n - 1) mean 
-		sum /= (array_of_values.length - 1).to_f
+		quotient = (Calculations.sum_of_values(array_of_values)) / (array_of_values.length - 1).to_f
 		#square root
-		sum = sum ** 0.5
+		std_dev = quotient ** 0.5
 		#return the final result (sigma), standard deviation
-		return sum
+		return std_dev
 	end
 	#METHOD TO CHECK FOR PRESENCE OF ACCEPTED VALUE
 	def Calculations.check_for_accepted
@@ -56,48 +64,58 @@ module Calculations
 		end
 	end
 	#METHOD TO CALCULATE REGULAR ERROR
-	def Calculations.error(array_of_values) 
-		array_of_values.each do |value|	#iterate through array of values
-			error = value - $ACCEPTED_VALUE #calculate error for each value
-			if error < 0 #absolute value workaround
-				error *= -1 #negate error if negative
+	def Calculations.error(array_of_values)
+		Calculations.check_for_accepted
+		#make array to hold error values
+		error_array = Array.new
+		#iterate through array of values
+		array_of_values.each do |value|
+			#calculate error for each value
+			error = value - $ACCEPTED_VALUE
+			#absolute value workaround
+			if error < 0
+				#negate error if negative
+				error *= -1 
 			end
-			#print data to console accordingly
-			puts "Data #{array_of_values.index(value) + 1} error: #{error}"
+			error_array.push(error)
 		end
-		nil
+		return error_array
 	end
 	#METHOD TO CALCULATE PERCENT ERROR
 	def Calculations.percent_error(array_of_values)
-		array_of_values.each do |value| #calculate the error
-			error = value - $ACCEPTED_VALUE
-			if error < 0
-				error *= -1
-			end
-			error /= $ACCEPTED_VALUE #divide error by accepted value to get decimal
-			error *= 100.0	#multiple by 100 to convert to percentage
-			#print data to console accordingly
-			puts "Data #{array_of_values.index(value) + 1} percent error: #{error}"
-		end
-		nil
-	end
-	#METHOD TO EXECUTE ALL -- ALL -- CALCULATIONS
-	def Calculations.all(array_of_values)
-		#renders all calculations to console
-		puts "#{"Mean:".red} \n#{Calculations.mean(array_of_values)}"
-		puts ""
-		puts "#{"Regular Deviation:".red}"
-		puts "#{Calculations.regular_deviation(array_of_values)}"
-		puts ""
-		puts "#{"Standard Deviation:".red}"
-		puts "#{Calculations.standard_deviation(array_of_values)}"
-		puts ""
-		puts "-"*33
 		Calculations.check_for_accepted
-		puts "-"*33
-		puts "#{"Error:".red}"
-		puts Calculations.error(array_of_values)
-		puts "#{"Percent Error:".red}"
-		puts Calculations.percent_error(array_of_values)
+		#make array to hold error values
+		percent_error_array = Array.new
+		#iterate through array of values
+		array_of_values.each do |value|
+			#calculate error for each value
+			prcnt_error = ((value - $ACCEPTED_VALUE) / $ACCEPTED_VALUE) * 100.0
+			#absolute value workaround
+			if prcnt_error < 0
+				#negate prcnt_error if negative
+				prcnt_error *= -1 
+			end
+			percent_error_array.push(prcnt_error)
+		end
+		return percent_error_array
+	end
+end
+module Printer
+	def Printer.print_simple(type, method)
+		puts "#{type.capitalize}:".red + "#{method}"
+	end
+	def Printer.print_complex(type,method)
+		return_data = method
+		puts "#{type.red}:"
+		return_data.each do |value|
+			puts "  Value ##{return_data.index(value) + 1}: #{value}"
+		end
+	end
+	def Printer.print_all(array_of_values)
+		Printer.print_simple("Mean",Calculations.mean(array_of_values))
+		Printer.print_complex("Deviation",Calculations.regular_deviation(array_of_values))
+		Printer.print_simple("Standard Deviation",Calculations.standard_deviation(array_of_values))
+		Printer.print_complex("Error",Calculations.error(array_of_values))
+		Printer.print_complex("Percent Error",Calculations.percent_error(array_of_values))
 	end
 end
