@@ -35,6 +35,7 @@ until valid == true do #implementation of error checking
 			print "."
 			sleep(0.33)
 		end
+		print "\n"
 		exit
 	else
 		case choice #checking for number selections.
