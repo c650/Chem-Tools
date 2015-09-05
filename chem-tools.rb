@@ -58,7 +58,7 @@ until valid == true do #implementation of error checking
 			puts "-"*33
 			Calculations.check_for_accepted
 			puts "-"*33
-			Printer.print_complex("Percent Error",Calculations.percent_error(array_of_values))
+			Printer.print_complex("Percent Error (%)",Calculations.percent_error(array_of_values))
 		else #error handeling for invalid options... shoots back up to option prompt afterwards
 			valid = false
 			puts "#{"ERROR:".red} Invalid option. Please enter again."
